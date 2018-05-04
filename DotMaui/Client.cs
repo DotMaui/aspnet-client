@@ -15,52 +15,55 @@ namespace DotMaui
 
         public Client(string apikey)
         {
-
             this.apikey = apikey;
-
         }
-
-
+        
         public string MinifyHTMLFromUrl(string url)
         {
-            string data = String.Format("url={0}", url);
+            string data = String.Format("url={0}", System.Web.HttpUtility.UrlEncode(url));
             return this.makeRequest("htmlmin", data);
         }
 
         public string MinifyHTMLFromString(string html)
         {
-
-            string data = String.Format("html={0}", html);
+            string data = String.Format("html={0}", System.Web.HttpUtility.UrlEncode(html));
             return this.makeRequest("htmlmin", data);
-
         }
 
         public string MinifyCSSFromUrl(string url)
         {
-            string data = String.Format("url={0}", url);
+            string data = String.Format("url={0}", System.Web.HttpUtility.UrlEncode( url));
             return this.makeRequest("cssmin", data);
         }
 
-        public string MinifyCSSFromString(string html)
+        public string MinifyCSSFromString(string css)
         {
-
-            string data = String.Format("css={0}", html);
+            string data = String.Format("css={0}", System.Web.HttpUtility.UrlEncode(css));
             return this.makeRequest("cssmin", data);
-
         }
 
         public string MinifyJSFromUrl(string url)
         {
-            string data = String.Format("url={0}", url);
+            string data = String.Format("url={0}", System.Web.HttpUtility.UrlEncode(url));
             return this.makeRequest("jsmin", data);
         }
 
-        public string MinifyJSFromString(string html)
+        public string MinifyJSFromString(string js)
         {
-
-            string data = String.Format("js={0}", html);
+            string data = String.Format("js={0}", System.Web.HttpUtility.UrlEncode(js));
             return this.makeRequest("jsmin", data);
+        }
+        public string BeautifyJSFromUrl(string url)
+        {
+            string data = String.Format("url={0}", System.Web.HttpUtility.UrlEncode(url));
+            return this.makeRequest("jsbeautify", data);
+        }
 
+        public string BeautifyJSFromString(string js)
+        { 
+        
+            string data = String.Format("js={0}", System.Web.HttpUtility.UrlEncode(js));
+            return this.makeRequest("jsbeautify", data);
         }
 
         public bool SaveImgResizedFromUrl(ImgResizerRequest req, string saveLocation)
@@ -113,11 +116,13 @@ namespace DotMaui
                 imageBytes = br.ReadBytes(500000);
                 br.Close();
             }
+
             responseStream.Close();
             imageResponse.Close();
 
             FileStream fs = new FileStream(saveLocation, FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
+
             try
             {
                 bw.Write(imageBytes);
@@ -133,6 +138,7 @@ namespace DotMaui
             }
 
             return result;
+
         }
 
 
